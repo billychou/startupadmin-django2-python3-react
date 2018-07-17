@@ -30,13 +30,13 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '[%(asctime)s] %(levelname)s: \n %(message)s',
+            'format': '[%(asctime)s] %(levelname)s: %(message)s \n',
         },
         'exception': {
             'format': '[%(asctime)s] %(levelname)s %(module)s Line:%(lineno)d:\n',
         },
         'trace_service': {
-            'format': '%(message)s',
+            'format': '%(message)s %(levelname)s %(modules)s line:%(lineno)d:\n',
         },
     },
     'filters': {
