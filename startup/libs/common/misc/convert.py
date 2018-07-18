@@ -16,24 +16,6 @@ import socket
 import struct
 
 
-def unicode2utf8(_value):
-    """
-    unicode 转化为 utf8
-    :param _value:
-    :return:
-    """
-    if isinstance(_value, unicode):
-        _value = _value.encode('utf-8')
-    else:
-        _value = str(_value)
-    return _value
-
-
-def utf82unicode(content):
-    if isinstance(content, utf8):
-        pass
-    else:
-        pass
 
 
 

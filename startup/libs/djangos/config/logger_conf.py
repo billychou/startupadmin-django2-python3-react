@@ -80,9 +80,11 @@ LOGGING = {
         },
         PROJECT_INFO_LOG: {
             'handlers': [PROJECT_INFO_LOG],
-            'level': 'INFO',
+            'level': 'DEBUG',
         },
-
+        PROJECT_EXCEPTION_LOG: {
+            'handlers': [PROJECT_EXCEPTION_LOG],
+            'level': "DEBUG",
+        }
     }
-
 }

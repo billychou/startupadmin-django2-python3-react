@@ -8,6 +8,7 @@
 
 import json
 import decimal
+import time
 
 
 class ApiStatus(object):
@@ -28,4 +29,53 @@ class DecimalEncoder(json.JSONEncoder):
         return super(DecimalEncoder, self).default(obj)
 
 
-print(json.dumps({"key": 123, "skks": 234.45}))
+class ResponseBuilder(object):
+    """
+    构造响应内容
+    """
+    def __init__(self):
+        pass
+
+    def response_json(self, context, ensure_ascii=True, indent=0):
+        """
+        构造请求
+        :param context:
+        :param ensure_ascii:
+                If ``ensure_ascii`` is false, then the return value can contain non-ASCII
+                characters if they appear in strings contained in ``obj``. Otherwise, all
+                such characters are escaped in JSON strings.
+        :param indent:
+                If ``indent`` is a non-negative integer, then JSON array elements and
+                object members will be pretty-printed with that indent level. An indent
+                level of 0 will only insert newlines. ``None`` is the most compact
+                representation.
+        :return:
+        """
+        return json.dumps(context, ensure_ascii=ensure_ascii, indent=indent)
+
+    def __call__(self, context=None, status_code=None, code=None, msg=None, version='',
+                 result=None, add_response=False):
+        if not context:
+            context = {}
+
+        if result is None:
+            if status_code is not None:
+                result = True if status_code == 200 else False
+            else:
+                result = True if code == 200 else False
+
+        response = {
+            "version": version,
+            "code": code if code is not None else 100,
+            "message": msg,
+            "timestamp": int(time.time()),
+            "result": result,
+        }
+
+        if add_response:
+            response.update({"response": context})
+        else:
+            response.update(context)
+        return response
+
+
