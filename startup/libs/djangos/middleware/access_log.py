@@ -40,7 +40,7 @@ INITIAL_PARAMS = InitialParams()
 
 class AccessLogMiddleware(object):
     """
-    记录请求日志
+    记录请求日志,和返回状态码
     """
     local_ip = socket.gethostbyname(socket.gethostname())
 
@@ -52,6 +52,7 @@ class AccessLogMiddleware(object):
         self.end_time = 0
 
     def __call__(self, request):
+        self.process_request(request)
         response = self.get_response(request)
         self.process_response(request, response)
         return response
@@ -60,17 +61,28 @@ class AccessLogMiddleware(object):
         self.start_time = time.time()
 
     def process_response(self, request, response):
-        print("processing response start")
+        # request
         host = get_clientip(request)
         method = request.method
         scheme = request.scheme
-        path = request.path
-        print("processing response!!!")
-        message = '{}\t{}\t{}\t{}'.format(
+        path = request.get_full_path()
+        # response
+        status_code = response.status_code
+        content_length = len(response.content)
+        self.end_time = time.time()
+        time_delta = self.end_time - self.start_time
+        time_delta = round(time_delta*1000)
+        user_agent = request.META.get("HTTP_USER_AGENT", "")
+        message = '{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}'.format(
             host,
             method,
             scheme,
-            path
+            path,
+            status_code,
+            time_delta,
+            user_agent,
+            content_length,
+            self.local_ip
         )
         ACCESS_LOG.info(message)
         return response

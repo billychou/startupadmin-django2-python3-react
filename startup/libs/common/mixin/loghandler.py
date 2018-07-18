@@ -20,6 +20,8 @@ from logging.handlers import TimedRotatingFileHandler
 class StartupLogFileHandlerMixin(TimedRotatingFileHandler):
     """
     初始化业务处理日志 Handler
+    Handler for logging to a file, rotating the log at certain timed intervals
+    if backupCount is > 0, when rollover is done, no more than backupCount files are kept,
     """
     def doRollover(self):
         """
@@ -49,9 +51,9 @@ class StartupLogFileHandlerMixin(TimedRotatingFileHandler):
         if os.path.exists(dfn):
             os.remove(dfn)
 
-        # >>>>>>>>>>>>>>
+        # >>>>>>>>>>>>>>>>>>
         # 分割文件加上进程号
-        # ==============
+        # ==================
         try:
             #
             if (not glob(dfn + ".*")) and os.path.exists(self.baseFilename):
