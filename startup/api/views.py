@@ -10,11 +10,14 @@ import traceback
 
 from django.views import View
 from django.http import HttpResponse
-
+from libs.utils import ResponseBuilder
 from django.conf import settings
 TRACE_LOG = logging.getLogger(settings.PROJECT_EXCEPTION_LOG)
 
-# Demo 不要为失败找理由,要为成功找方法
+# 不要为失败找理由,要为成功找方法
+# 不难,要你干嘛
+# 目标导向
+# 唯有热爱,才能抵挡危机
 
 
 class ApiView(View):
@@ -32,12 +35,17 @@ class ApiView(View):
         try:
             a = request.parameters.get('a')
             b = request.parameters.get('b')
-            c = request.parameters.get('c')
 
+            context = {
+                "a": a,
+                "b": b
+            }
+            res_build = ResponseBuilder()
+            response = res_build(context=context, status_code=200, add_response=True)
+            response = ResponseBuilder.response_json(response)
         except Exception as e:
             TRACE_LOG.info(traceback.format_exc())
-
-        return HttpResponse("Hello world! a = %s, b = %s, c=%s" % (a, b, c))
+        return HttpResponse(response)
 
     def post(self, request, *args, **kwargs):
         """

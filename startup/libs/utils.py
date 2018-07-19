@@ -36,6 +36,7 @@ class ResponseBuilder(object):
     def __init__(self):
         pass
 
+    @classmethod
     def response_json(self, context, ensure_ascii=True, indent=0):
         """
         构造请求
@@ -59,10 +60,9 @@ class ResponseBuilder(object):
             context = {}
 
         if result is None:
-            if status_code is not None:
-                result = True if status_code == 200 else False
-            else:
-                result = True if code == 200 else False
+            result = True if status_code == 200 else False
+        else:
+            result = True if code == 200 else False
 
         response = {
             "version": version,
@@ -73,9 +73,9 @@ class ResponseBuilder(object):
         }
 
         if add_response:
-            response.update({"response": context})
+            response.update({"data": context})
         else:
-            response.update(context)
+            pass
         return response
 
 
