@@ -45,7 +45,7 @@ class ApiView(View):
             response = ResponseBuilder.response_json(response)
         except Exception as e:
             TRACE_LOG.info(traceback.format_exc())
-        return HttpResponse(response)
+        return HttpResponse(response, content_type="application/json")
 
     def post(self, request, *args, **kwargs):
         """
