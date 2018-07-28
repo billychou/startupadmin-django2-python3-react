@@ -17,9 +17,14 @@ from datetime import datetime
 
 class User(BaseModel):
     """用户主表"""
+    ROLE_CHOICES = (
+        ("farmer", "农场主"),
+        ("consumer", "消费者")
+    )
     username = models.CharField(max_length=100, unique=True)
     nickname = models.CharField(max_length=100, default='')
     is_active = models.BooleanField(default=True)
+    role = models.CharField(max_length=100, choices=ROLE_CHOICES, default="consumer")
     date_joined = models.DateTimeField(default=datetime.now)
     last_update = models.DateTimeField(auto_now=True)
 
