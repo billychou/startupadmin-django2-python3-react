@@ -1,0 +1,8 @@
+*.pyc
+*.idea
+*.sqlite3
+startup/web/startup/node_modules
+startup/web/startup/dist
+startup/static/
+startup/logs
+
