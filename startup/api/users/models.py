@@ -32,6 +32,8 @@ class User(BaseModel):
     date_joined = models.DateTimeField(verbose_name="注册时间", default=datetime.now)
     last_update = models.DateTimeField(verbose_name="更新时间", auto_now=True)
 
+    objects = UserManager()
+
     @classmethod
     def user_add(cls, username, nickname, age, email, phone):
         user_obj = cls.objects.create(username=username, nickname=nickname, age=age, email=email, phone=phone)
@@ -40,5 +42,8 @@ class User(BaseModel):
     class Meta:
         db_table = 'account_user'
 
+
 class UserManager(BaseManager):
-    pass
+    def with_counts(self):
+        result_list = []
+        return result_list
