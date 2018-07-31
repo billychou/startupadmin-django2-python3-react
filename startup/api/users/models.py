@@ -15,6 +15,7 @@ from libs.djangos.model.base import BaseModel
 from datetime import datetime
 
 
+
 class User(BaseModel):
     """用户主表"""
     ROLE_CHOICES = (
