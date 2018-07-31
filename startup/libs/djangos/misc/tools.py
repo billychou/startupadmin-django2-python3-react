@@ -9,6 +9,15 @@ File: tools.py
 Author: songchuan.zhou
 Date: 2018/7/17 22
 """
+import os
+import time
+
+import django
+from django.conf import settings
+from django.http import HttpResponse
+from django.shortcuts import _get_queryset
+
+
 
 
 def get_clientip(request, distinct=True):
