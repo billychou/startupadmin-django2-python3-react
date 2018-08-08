@@ -25,5 +25,11 @@ class UserCheckLoginView(View):
     检查用户是否登录
     """
     def get(self, request, *args):
-        response = ResponseBuilder.response_json({})
+        result = {
+            "message": "test",
+            "data": [
+
+            ]
+        }
+        response = ResponseBuilder.response_json(result)
         return HttpResponse(response)

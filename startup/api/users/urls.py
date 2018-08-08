@@ -14,5 +14,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('check-login', views.UserCheckLoginView.as_view(), name="check-login"),
+    path('check-login/', views.UserCheckLoginView.as_view(), name="check-login"),
 ]
