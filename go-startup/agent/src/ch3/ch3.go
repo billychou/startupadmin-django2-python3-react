@@ -4,6 +4,32 @@ import (
 	"fmt"
 )
 
+// 这些函数取自于原生字节序列，后续需要查阅go标准库，看go标准库源码
+func HasPrefix(s, prefix string) bool {
+	// 判断prefix是否为s的前缀
+	// 两个条件
+	// 1. s的长度大于等于prefix
+	// 2. s从0到prefix长度 等于prefix
+	return len(s) >= len(prefix) && s[:len(prefix)] == prefix
+}
+
+func HasSuffix(s, suffix string) bool {
+	// 判断suffix是否为s的后缀
+	s_length := len(s) - len(suffix) 
+	return len(s) >= len(suffix) && s[s_length:] == suffix
+}
+
+func Contains(s, substr string) bool {
+	// 判断substr是否为s的子字符串
+	// 这个自己还没完全掌握
+	for i := 0; i< len(s);i++ {
+		if HasPrefix(s[i:], substr) {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	fmt.Printf("本章节学习基本数据类型，包括数字、字符串、布尔值\n")
 	var u uint8 = 255
@@ -21,4 +47,15 @@ func main() {
 	var y uint8 = 1<<1 | 1<<2
 	fmt.Printf("%08b\n", x)
 	fmt.Printf("%08b\n", y)
+	// 
+	// string
+	// 1. 判断HasPrefix函数
+	fmt.Println("welcome", "sksk")
+	// 执行的时候，傻逼了。哈哈
+	fmt.Println(HasPrefix(`welcome`, `sksks`))
+	fmt.Println(HasPrefix(`welcome`, `wel`))
+    // 2. 判断HasSuffix
+	fmt.Println(HasSuffix(`welcome`, `wel`))
+	fmt.Println(HasSuffix(`welcome`, `come`))
+	
 }
