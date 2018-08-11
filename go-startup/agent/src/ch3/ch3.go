@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"unicode/utf8"
 )
 
 // 这些函数取自于原生字节序列，后续需要查阅go标准库，看go标准库源码
@@ -57,5 +58,13 @@ func main() {
     // 2. 判断HasSuffix
 	fmt.Println(HasSuffix(`welcome`, `wel`))
 	fmt.Println(HasSuffix(`welcome`, `come`))
-	
+ 	// 3. 原生utf8编码
+	s := "Hello, 世界"
+	fmt.Println(len(s))
+	fmt.Println(utf8.RuneCountInString(s))
+	for i := 0; i<len(s); {
+		r, size := utf8.DecodeRuneInString(s[i:])
+		fmt.Printf("%d\t%c\n", i, r)
+		i += size
+	}
 }
