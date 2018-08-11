@@ -16,6 +16,9 @@ from django.db import router
 
 
 class BaseQuerySet(QuerySet):
+    """
+    自定义 QuerySet 
+    """
     def use_master(self):
         """
         返回当前 model 对应主库的 queryset

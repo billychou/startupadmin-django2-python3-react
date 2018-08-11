@@ -77,5 +77,3 @@ class ResponseBuilder(object):
         else:
             pass
         return response
-
-

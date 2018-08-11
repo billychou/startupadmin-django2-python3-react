@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/op/oped/noah/!svn/ver/215416/trunk/bfe/bfe-common/golang-lib/src/code.google.com/p/gomock
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/op/oped/noah/!svn/ver/215416/trunk/bfe/bfe-common/golang-lib/src/code.google.com/p/gomock/LICENSE
+END
+.gitignore
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/op/oped/noah/!svn/ver/215416/trunk/bfe/bfe-common/golang-lib/src/code.google.com/p/gomock/.gitignore
+END
+AUTHORS
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/op/oped/noah/!svn/ver/215416/trunk/bfe/bfe-common/golang-lib/src/code.google.com/p/gomock/AUTHORS
+END
+update_mocks.sh
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/op/oped/noah/!svn/ver/215416/trunk/bfe/bfe-common/golang-lib/src/code.google.com/p/gomock/update_mocks.sh
+END
+README.md
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/op/oped/noah/!svn/ver/215416/trunk/bfe/bfe-common/golang-lib/src/code.google.com/p/gomock/README.md
+END
+CONTRIBUTORS
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/op/oped/noah/!svn/ver/215416/trunk/bfe/bfe-common/golang-lib/src/code.google.com/p/gomock/CONTRIBUTORS
+END
