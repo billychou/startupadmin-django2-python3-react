@@ -67,4 +67,10 @@ func main() {
 		fmt.Printf("%d\t%c\n", i, r)
 		i += size
 	}
+	// 4. range循环
+	fmt.Println("range")
+	for i, r := range "Hello, 世界" {
+		fmt.Printf("%d\t%q\t%d\n", i, r, r)
+	}
+
 }
