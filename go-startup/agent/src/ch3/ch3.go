@@ -1,11 +1,14 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"strconv"
+	"strings"
 	"unicode/utf8"
 )
 
-// 这些函数取自于原生字节序列，后续需要查阅go标准库，看go标准库源码
+// HasPrefix...  这些函数取自于原生字节序列，后续需要查阅go标准库，看go标准库源码
 func HasPrefix(s, prefix string) bool {
 	// 判断prefix是否为s的前缀
 	// 两个条件
@@ -15,12 +18,13 @@ func HasPrefix(s, prefix string) bool {
 }
 
 func HasSuffix(s, suffix string) bool {
-	// 判断suffix是否为s的后缀
-	s_length := len(s) - len(suffix)
-	return len(s) >= len(suffix) && s[s_length:] == suffix
+	sLength := len(s) - len(suffix)
+	return len(s) >= len(suffix) && s[sLength:] == suffix
 }
 
+// func
 func Contains(s, substr string) bool {
+	// Contains...
 	// 判断substr是否为s的子字符串
 	// 这个自己还没完全掌握
 	for i := 0; i < len(s); i++ {
@@ -31,23 +35,56 @@ func Contains(s, substr string) bool {
 	return false
 }
 
-func basename(s string) string {
-	// 将最后一个"/"和之前的部分全部都舍弃
-	for i := len(s) - 1; i >= 0; i-- {
-		if s[i] == '/' {
-			s = s[i+1:]
-			break
-		}
-	}
+//func basename(s string) string {
+//	// 将最后一个"/"和之前的部分全部都舍弃
+//	for i := len(s) - 1; i >= 0; i-- {
+//		if s[i] == '/' {
+//			s = s[i+1:]
+//			break
+//		}
+//	}
+//
+//	// 保留最后一个'_'之前的所有内容
+//	for i := len(s) - 1; i >= 0; i-- {
+//		if s[i] == '.' {
+//			s = s[:i]
+//			break
+//		}
+//	}
+//	return s
+//}
 
-	// 保留最后一个'_'之前的所有内容
-	for i := len(s) - 1; i >= 0; i-- {
-		if s[i] == '.' {
-			s = s[:i]
-			break
-		}
+// atom
+
+func basename(s string) string {
+	slash := strings.LastIndex(s, "/")
+	s = s[slash+1:]
+	if dot := strings.LastIndex(s, "/"); dot >= 0 {
+		s = s[:dot]
 	}
 	return s
+}
+
+// 递归， 函数向表示十进制非负整数的字符串中插入逗号
+func comma(s string) string {
+	n := len(s)
+	if n <= 3 {
+		return s
+	}
+	return comma(s[:n-3] + "," + s[n-3:])
+}
+
+func intsToString(values []int) string {
+	var buf bytes.Buffer
+	buf.WriteByte('[')
+	for i, v := range values {
+		if i > 0 {
+			buf.WriteString(", ")
+		}
+		fmt.Fprintf(&buf, "%d", v)
+	}
+	buf.WriteByte(']')
+	return buf.String()
 }
 
 func main() {
@@ -110,4 +147,23 @@ func main() {
 	fmt.Println(string(12345566))
 	fmt.Println(basename("a/b/c.go"))
 
+	s1 := "abc"
+	b := []byte(s1)
+	s2 := string(b)
+
+	fmt.Printf("%s\n", s2)
+
+	fmt.Println(intsToString([]int{1, 2, 3}))
+	// 字符串和数字的相互转换
+	// 1. 一种选择是使用fmt.Sprintf
+	// 2. 另一种做法是用函数strconv.Itoa("Integer to ASCII")
+	var xInt = 123
+	var z = fmt.Sprintf("%d", xInt)
+	fmt.Println(z)
+	// FormatInt
+	fmt.Printf("展示strconv包的使用\n")
+	fmt.Println(strconv.FormatInt(int64(100), 2))
+	fmt.Println(x)
+	var sBit = fmt.Sprintf("x=%b", x)
+	fmt.Println(sBit)
 }
