@@ -4,6 +4,12 @@ import (
 	"fmt"
 )
 
+func zero(ptr *[32]byte) {
+	for i := range ptr {
+		ptr[i] = 0
+	}
+}
+
 func main() {
 	var a [3]int
 	fmt.Println(a[0])
@@ -25,4 +31,5 @@ func main() {
 	for i, v := range qArray {
 		fmt.Printf("%d\t%d\n", i, v)
 	}
+	//
 }
