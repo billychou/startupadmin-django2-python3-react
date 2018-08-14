@@ -4,9 +4,16 @@ import (
 	"fmt"
 )
 
+// 显示传递一个数组的指针给函数，这样在函数内部对数组的任何修改都反应到原始数组上面，下面的程序
 func zero(ptr *[32]byte) {
 	for i := range ptr {
 		ptr[i] = 0
+	}
+}
+
+func reverse(s []int) {
+	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+		s[i], s[j] = s[j], s[i]
 	}
 }
 
@@ -31,5 +38,9 @@ func main() {
 	for i, v := range qArray {
 		fmt.Printf("%d\t%d\n", i, v)
 	}
-	//
+	// slice
+	aArray := [...]int{0, 1, 2, 3, 4, 5}
+	fmt.Println(aArray)
+	reverse(aArray[:])
+	fmt.Println(aArray)
 }
