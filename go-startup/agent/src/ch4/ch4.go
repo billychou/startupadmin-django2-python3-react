@@ -43,5 +43,6 @@ func main() {
 	fmt.Println(aArray)
 	reverse(aArray[:])
 	fmt.Println(aArray)
+	fmt.Println("NEXT")
 
 }

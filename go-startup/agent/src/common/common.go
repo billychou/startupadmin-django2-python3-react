@@ -11,4 +11,5 @@ func main() {
 	flag.Parse()
 	fmt.Println(*logTime)
 	fmt.Println(*appName)
+
 }
