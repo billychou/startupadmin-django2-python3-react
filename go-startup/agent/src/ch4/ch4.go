@@ -38,18 +38,19 @@ func main() {
 	for i, v := range qArray {
 		fmt.Printf("%d\t%d\n", i, v)
 	}
-<<<<<<< HEAD
-	// 数组复制
-	r := [...]int{3: -1}
-	for i, v := range r {
-		fmt.Printf("%d\t%d\n", i, v)
-	}
-=======
 	// slice
 	aArray := [...]int{0, 1, 2, 3, 4, 5}
 	fmt.Println(aArray)
 	reverse(aArray[:])
 	fmt.Println(aArray)
 
->>>>>>> a75f158b9ccb2f4e3daf4416c50596a4b3392da2
+	ages := map[string]int{
+		"alice":   31,
+		"charlie": 34,
+	}
+
+	fmt.Println(ages["alice"])
+	// go使用双引号创建可解析的字符串字面量
+	// 反引号用来创建原生的字符串
+
 }
