@@ -16,13 +16,18 @@ func main() {
 		fmt.Printf("%d\n", v)
 	}
 
-	var q [3]int = [3]int{1, 2, 3}
+	var q = [3]int{1, 2, 3}
 	for i, v := range q {
 		fmt.Printf("%d\t%d\n", i, v)
 	}
 	// 数组长度由初始化数组的元素个数
 	qArray := [...]int{1, 2, 3}
 	for i, v := range qArray {
+		fmt.Printf("%d\t%d\n", i, v)
+	}
+	// 数组复制
+	r := [...]int{3: -1}
+	for i, v := range r {
 		fmt.Printf("%d\t%d\n", i, v)
 	}
 }
