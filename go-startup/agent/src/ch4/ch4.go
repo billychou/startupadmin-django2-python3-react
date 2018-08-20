@@ -29,7 +29,7 @@ func main() {
 		fmt.Printf("%d\n", v)
 	}
 
-	var q [3]int = [3]int{1, 2, 3}
+	var q = [3]int{1, 2, 3}
 	for i, v := range q {
 		fmt.Printf("%d\t%d\n", i, v)
 	}
@@ -44,5 +44,14 @@ func main() {
 	reverse(aArray[:])
 	fmt.Println(aArray)
 	fmt.Println("NEXT")
+
+	ages := map[string]int{
+		"alice":   31,
+		"charlie": 34,
+	}
+
+	fmt.Println(ages["alice"])
+	// go使用双引号创建可解析的字符串字面量
+	// 反引号用来创建原生的字符串
 
 }
