@@ -14,16 +14,16 @@ type SocketLogWriter chan *LogRecord
 
 // This is the SocketLogWriter's output method
 func (w SocketLogWriter) LogWrite(rec *LogRecord) {
-    if !LogWithBlocking {
-        if len(w) >= LogBufferLength {
-            if WithModuleState {
-                log4goState.Inc("ERR_SOCK_LOG_OVERFLOW", 1)
-            }            
-            
-            return
-        }
-    }
-    
+	if !LogWithBlocking {
+		if len(w) >= LogBufferLength {
+			if WithModuleState {
+				log4goState.Inc("ERR_SOCK_LOG_OVERFLOW", 1)
+			}
+
+			return
+		}
+	}
+
 	w <- rec
 }
 

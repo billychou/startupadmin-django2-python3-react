@@ -19,16 +19,16 @@ Usage:
 package module_state2
 
 import (
-    "encoding/json"
-    "fmt"
+	"encoding/json"
+	"fmt"
 )
 
-// hierarchical structure for StateData 
+// hierarchical structure for StateData
 type hierStateData struct {
-    SCounters       hierCounters        // for count up
-    States          map[string]string   // for store states
-    NumStates       hierCounters        // for store num states
-    NoahKeyPrefix   string
+	SCounters     hierCounters      // for count up
+	States        map[string]string // for store states
+	NumStates     hierCounters      // for store num states
+	NoahKeyPrefix string
 }
 
 // convert StateData to hierStateData
@@ -39,23 +39,23 @@ type hierStateData struct {
 //  - error: error msg
 
 func toHierStateData(sd *StateData) (*hierStateData, error) {
-    var hsd hierStateData
-    var err error
+	var hsd hierStateData
+	var err error
 
-    hsd.SCounters, err = toHierCounters(sd.SCounters)
-    if err != nil {
-        return nil, fmt.Errorf("toHierStateData(): Scounters %s", err.Error())
-    }
+	hsd.SCounters, err = toHierCounters(sd.SCounters)
+	if err != nil {
+		return nil, fmt.Errorf("toHierStateData(): Scounters %s", err.Error())
+	}
 
-    hsd.States = sd.States
-    hsd.NumStates, err = toHierCounters(sd.NumStates)
-    if err != nil {
-        return nil, fmt.Errorf("toHierStateData(): NumStates %s", err.Error())
-    }
+	hsd.States = sd.States
+	hsd.NumStates, err = toHierCounters(sd.NumStates)
+	if err != nil {
+		return nil, fmt.Errorf("toHierStateData(): NumStates %s", err.Error())
+	}
 
-    hsd.NoahKeyPrefix = sd.NoahKeyPrefix
+	hsd.NoahKeyPrefix = sd.NoahKeyPrefix
 
-    return &hsd, nil
+	return &hsd, nil
 }
 
 // get hierarchical StataData of json format
@@ -65,10 +65,10 @@ func toHierStateData(sd *StateData) (*hierStateData, error) {
 //  - []byte: json formated byte
 //  - error: error msg
 func GetSdHierJson(sd *StateData) ([]byte, error) {
-    hierState, err := toHierStateData(sd)
-    if err != nil {
-        return nil, fmt.Errorf("GetSdHierJson(): %s", err.Error())
-    }
+	hierState, err := toHierStateData(sd)
+	if err != nil {
+		return nil, fmt.Errorf("GetSdHierJson(): %s", err.Error())
+	}
 
-    return json.Marshal(hierState)
+	return json.Marshal(hierState)
 }

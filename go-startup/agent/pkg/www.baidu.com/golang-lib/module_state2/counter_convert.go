@@ -8,7 +8,7 @@ modification history
 
 /*
 DESCRIPTION
-   This program converts Counters(flat display counters) to 
+   This program converts Counters(flat display counters) to
    hierCounters(hierarchical display counters) by building
    a multi tree.
    Convert happens only when key in Counters is splited by dot(".")
@@ -31,8 +31,8 @@ DESCRIPTION
 package module_state2
 
 import (
-    "fmt"
-    "strings"
+	"fmt"
+	"strings"
 )
 
 // a multiTree is composed by many nodes: root node and data nodes.
@@ -42,7 +42,7 @@ import (
 //                            "root:-1"
 //                                |
 //                          "WaitResponse:-1"
-//                                |     
+//                                |
 //                           "Forbidden:10"
 
 // element of tree node, which contains the meta data
@@ -51,43 +51,43 @@ import (
 //  - for non-leaf node, value is always -1
 //  - for leaf node, value is the counter
 type element struct {
-    key   string
-    // for leaf node, value is the counter
-    // for non-leaf node, value is always -1
-    value int64
+	key string
+	// for leaf node, value is the counter
+	// for non-leaf node, value is always -1
+	value int64
 }
 
 // struct of tree node
 // elem: stands for element of the node
 // children: stands for children of the node
 type treeNode struct {
-    elem      element
-    children  []*treeNode
+	elem     element
+	children []*treeNode
 }
 
 // create a new node with key and value
-// Params: 
+// Params:
 //  - isLastKey: nodeKey is/isn't the last key of the dot splited cntKey
 //  - nodeKey: key of the node
 //  - nodeVal: value of the counter key
 // Returns: *treeNode
 //  - pointer to the new node
 func newNode(isLastKey bool, nodeKey string, nodeVal int64) *treeNode {
-    var node *treeNode
+	var node *treeNode
 
-    if isLastKey {
-        // for leaf node, value is set to the counter
-        node = &treeNode{element{nodeKey, nodeVal}, nil}
-    } else {
-        // for non-leaf node, value is set to -1
-        node = &treeNode{element{nodeKey, -1}, nil}
-    }
+	if isLastKey {
+		// for leaf node, value is set to the counter
+		node = &treeNode{element{nodeKey, nodeVal}, nil}
+	} else {
+		// for non-leaf node, value is set to -1
+		node = &treeNode{element{nodeKey, -1}, nil}
+	}
 
-    return node
+	return node
 }
 
 // check if it ok to build the tree or not
-// Params: 
+// Params:
 //  - node: the checked node
 //  - isLastKey: nodeKey is/isn't the last key of the dot splited cntKey
 //  - cntKey: counter key
@@ -95,17 +95,17 @@ func newNode(isLastKey bool, nodeKey string, nodeVal int64) *treeNode {
 //  - nil if check ok
 //  - err info if check fail
 func checkValidity(node *treeNode, isLastKey bool, cntKey string) error {
-    isLeafNode := len(node.children) == 0
+	isLeafNode := len(node.children) == 0
 
-    if isLeafNode {
-        return fmt.Errorf("key[%s] at least has one prefix key", cntKey)
-    } else {
-        if isLastKey{
-            return fmt.Errorf("key[%s] is the prefix of other keys", cntKey)
-        } else {
-            return nil
-        }
-    }
+	if isLeafNode {
+		return fmt.Errorf("key[%s] at least has one prefix key", cntKey)
+	} else {
+		if isLastKey {
+			return fmt.Errorf("key[%s] is the prefix of other keys", cntKey)
+		} else {
+			return nil
+		}
+	}
 }
 
 // get node among the children whose element.key == key
@@ -116,13 +116,13 @@ func checkValidity(node *treeNode, isLastKey bool, cntKey string) error {
 // - node contains the key when get
 // - nil while no get
 func getNode(children []*treeNode, key string) *treeNode {
-    for i := 0; i < len(children); i++ {
-        if children[i].elem.key == key {
-            return children[i]
-        }
-    }
+	for i := 0; i < len(children); i++ {
+		if children[i].elem.key == key {
+			return children[i]
+		}
+	}
 
-    return nil
+	return nil
 }
 
 // Insert a node as child to another node
@@ -130,15 +130,15 @@ func getNode(children []*treeNode, key string) *treeNode {
 //  - father: father node
 //  - child: child node
 func insert(father *treeNode, child *treeNode) {
-    if father.children == nil {
-        father.children = make([]*treeNode, 0)
-    }
+	if father.children == nil {
+		father.children = make([]*treeNode, 0)
+	}
 
-    father.children = append(father.children, child)
+	father.children = append(father.children, child)
 }
 
 // Build multiTree from specified Counter key
-// Params: 
+// Params:
 //  - t: root node of the built tree
 //  - cntKey: counter key, which is a dot splited string, e.g., a.b.c
 //  - cntVal: value related to the counter key
@@ -146,39 +146,39 @@ func insert(father *treeNode, child *treeNode) {
 //  - nil if build ok
 //  - err info is build error
 func buildTree(t *treeNode, cntKey string, cntVal int64) error {
-    // use dot to separate cntrKey, each key in the slice stands for a tree node
-    // e.g., a.b.c => root->node(a)->node(b)->node(c)
-    keySlice := strings.Split(cntKey, ".")
+	// use dot to separate cntrKey, each key in the slice stands for a tree node
+	// e.g., a.b.c => root->node(a)->node(b)->node(c)
+	keySlice := strings.Split(cntKey, ".")
 
-    for i := 0; i < len(keySlice); i++ {
-        isLastKey := (i + 1) == len(keySlice)
-        nodeKey := keySlice[i]
+	for i := 0; i < len(keySlice); i++ {
+		isLastKey := (i + 1) == len(keySlice)
+		nodeKey := keySlice[i]
 
-        // get children node of t which key is nodeKey
-        node := getNode(t.children, nodeKey)
-        if node == nil {
-            // node does not exist, create a new node
-            node = newNode(isLastKey, nodeKey, cntVal)
-            // insert the new node as a child of t
-            insert(t, node)
-        } else {
-            // node exist, check validity
-            err := checkValidity(node, isLastKey, cntKey)
-            if err != nil {
-                return err
-            } else {
-                //bypass, do nothing
-            }
-        }
+		// get children node of t which key is nodeKey
+		node := getNode(t.children, nodeKey)
+		if node == nil {
+			// node does not exist, create a new node
+			node = newNode(isLastKey, nodeKey, cntVal)
+			// insert the new node as a child of t
+			insert(t, node)
+		} else {
+			// node exist, check validity
+			err := checkValidity(node, isLastKey, cntKey)
+			if err != nil {
+				return err
+			} else {
+				//bypass, do nothing
+			}
+		}
 
-        // to build children of node
-        t = node
-    }
-    return nil
+		// to build children of node
+		t = node
+	}
+	return nil
 }
 
 // create multiTree from Counters
-// Params: 
+// Params:
 //  - m: the map which is used to build multiTree
 //      - map key is a dot splited string, e.g., a.b.c
 //      - map value is a counter number
@@ -186,16 +186,16 @@ func buildTree(t *treeNode, cntKey string, cntVal int64) error {
 //  - *treeNode: root node of the built Tree
 //  - error: err info
 func newMultiTree(c Counters) (*treeNode, error) {
-    // new root node
-    root := &treeNode{element{"root", -1}, nil}
+	// new root node
+	root := &treeNode{element{"root", -1}, nil}
 
-    for cntKey, cntVal := range c {
-        // build tree with every key in counter
-        err := buildTree(root, cntKey, cntVal)
-        if err != nil {
-            return nil, err
-        }
-    }
+	for cntKey, cntVal := range c {
+		// build tree with every key in counter
+		err := buildTree(root, cntKey, cntVal)
+		if err != nil {
+			return nil, err
+		}
+	}
 
-    return root, nil
+	return root, nil
 }

@@ -45,7 +45,7 @@ func noahKeyGen(key string, noahKeyPrefix string, programName string, withProgra
 }
 
 /*
-argus collect plugin only support letter, num, ".", "_", - use "_" instead of unsupport character. 
+argus collect plugin only support letter, num, ".", "_", - use "_" instead of unsupport character.
 more info here http://devops.baidu.com/new/argus/acquisition.md
 
 Params:
@@ -83,6 +83,6 @@ Returns:
 	final key, e.g., "bfe_reader_ERR_PB_SEEK", "go-bfereader.bfe_reader_ERR_PB_SEEK"
 */
 func NoahKeyGen(key string, noahKeyPrefix string, programName string, withProgramName bool) string {
-    noahKey := noahKeyGen(key, noahKeyPrefix, programName, withProgramName)
-    return escapeNoahKey(noahKey)
+	noahKey := noahKeyGen(key, noahKeyPrefix, programName, withProgramName)
+	return escapeNoahKey(noahKey)
 }

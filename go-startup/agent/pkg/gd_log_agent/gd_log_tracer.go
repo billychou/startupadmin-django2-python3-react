@@ -1,17 +1,17 @@
 package main
 
 import (
-	"os"
-	"fmt"
 	"bufio"
-	"time"
 	"flag"
+	"fmt"
+	"github.com/Unknwon/goconfig"
+	"io/ioutil"
+	"os"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
-	"path/filepath"
-	"io/ioutil"
-	"github.com/Unknwon/goconfig"
+	"time"
 	"www.baidu.com/golang-lib/log"
 )
 
@@ -65,18 +65,18 @@ func getCurLogNameIrregular(bakPath string, bakName string, logFormat string, lo
 	logTimeStamp := timeStr2Stamp(strings.Replace(logTime, "_", " ", -1))
 	mtimeMin := int64(0)
 	curLogName := ""
-    fileList, err := ioutil.ReadDir(bakPath)
-    if err != nil {
+	fileList, err := ioutil.ReadDir(bakPath)
+	if err != nil {
 		log.Logger.Critical("read baklog dir error %s", err)
 		return "", fmt.Errorf("read baklog dir error, %s, %s", err, bakPath)
-    }
+	}
 
-    for _, v := range fileList {
-		if v.IsDir() {		//过滤目录
+	for _, v := range fileList {
+		if v.IsDir() { //过滤目录
 			continue
 		}
-		matched, err := regexp.MatchString(bakName, v.Name()) 
-		if !matched || err != nil {		//过滤不匹配日志名的文件
+		matched, err := regexp.MatchString(bakName, v.Name())
+		if !matched || err != nil { //过滤不匹配日志名的文件
 			continue
 		}
 
@@ -89,7 +89,7 @@ func getCurLogNameIrregular(bakPath string, bakName string, logFormat string, lo
 			mtimeMin = mtime
 			curLogName = v.Name()
 		}
-    }
+	}
 	if curLogName != "" {
 		return bakPath + "/" + curLogName, nil
 	}
@@ -143,7 +143,7 @@ func getLogByFormat(logFormat string, logTime string) (log string) {
 //对于按大小切割的日志，根据文件最近修改时间判断所在的日志文件名
 func getMtime(file string) (mtime int64, err error) {
 	f, err := os.Open(file)
-    if err != nil {
+	if err != nil {
 		return int64(0), fmt.Errorf("open file error, %s, %s", err, file)
 	}
 	defer f.Close()

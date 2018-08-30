@@ -11,27 +11,27 @@ DESCRIPTION
 package web_params
 
 import (
-    "errors"
+	"errors"
 )
 
 // get one (the first) value for given key in params
 func ParamsValueGet(params map[string][]string, key string) (string, error) {
-    values := params[key]
-    
-    if values == nil || len(values) == 0 {
-        return "", errors.New("key not exist")
-    }
-    
-    return values[0], nil
+	values := params[key]
+
+	if values == nil || len(values) == 0 {
+		return "", errors.New("key not exist")
+	}
+
+	return values[0], nil
 }
 
 // get values for given key in params
 func ParamsMultiValueGet(params map[string][]string, key string) ([]string, error) {
-    values := params[key]
-    
-    if values == nil || len(values) == 0 {
-        return nil, errors.New("key not exist")
-    }
+	values := params[key]
 
-    return values, nil
+	if values == nil || len(values) == 0 {
+		return nil, errors.New("key not exist")
+	}
+
+	return values, nil
 }

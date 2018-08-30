@@ -1,18 +1,18 @@
 package main
 
 import (
-	"os"
 	"fmt"
-	"time"
 	"io/ioutil"
+	"os"
 	"os/exec"
-	"strings"
-	"runtime"
 	"regexp"
+	"runtime"
+	"strings"
+	"time"
 	//"reflect"
+	"gd_log_agent/tail"
 	"github.com/Unknwon/goconfig"
 	"www.baidu.com/golang-lib/log"
-	"gd_log_agent/tail"
 	//"gd_log_agent/logconf"
 )
 
@@ -46,9 +46,10 @@ func getLocalIp() (ip string) {
 	//log.Println(ip)
 	return ip
 }
+
 //根据机器ip，获取机器所属app
 func getAppByIp(ip string) (app string) {
-	cmd := "armory -ei " + ip +" | grep product_name | head -n1 | awk '{print $2}'"
+	cmd := "armory -ei " + ip + " | grep product_name | head -n1 | awk '{print $2}'"
 	ret, err := runCmd(cmd)
 	if err != nil {
 		log.Logger.Critical(err)
@@ -60,8 +61,8 @@ func getAppByIp(ip string) (app string) {
 }
 
 //tail日志内容
-func tailLog(ip string, logAlias string, filename string, config tail.Config, 
-			logRotateConfig tail.LogRotateConfig, app string) {
+func tailLog(ip string, logAlias string, filename string, config tail.Config,
+	logRotateConfig tail.LogRotateConfig, app string) {
 	tails, err := tail.TailFile(filename, config, logRotateConfig)
 	if err != nil {
 		fmt.Println("tail file err:", err)
@@ -83,7 +84,6 @@ func tailLog(ip string, logAlias string, filename string, config tail.Config,
 		//log.Logger.Info("%s %s %s %s %s %d", msg.Time, msg.Text, ip, app, msg.LogFile, msg.Offset)
 	}
 }
-
 
 //根据配置生成日志名
 func getLog(log_format string) (log string) {
@@ -165,16 +165,16 @@ func main() {
 		//log_file = "access_log"
 
 		config := tail.Config{
-			ReOpen:	true,
-			Follow:	true,
+			ReOpen:    true,
+			Follow:    true,
 			Location:  &tail.SeekInfo{Offset: 0, Whence: 2},
 			MustExist: false,
-			Poll:	  true,
-			GsidReg:	gsid_reg,
+			Poll:      true,
+			GsidReg:   gsid_reg,
 		}
 
 		logRotateConfig := tail.LogRotateConfig{
-			LogFormat: log_format,
+			LogFormat:     log_format,
 			LogRotateType: string(rotate_type),
 			//LogRotateGap: int(rotate_gap),
 			//LastRo
@@ -188,6 +188,6 @@ func main() {
 		//break
 	}
 
-	<- log_chan
+	<-log_chan
 
 }

@@ -2,7 +2,7 @@
 /*
 modification history
 --------------------
-2015/6/4, by Zhang Miao, add AddCIDRRange2() and cidrToRange2(), which is more closer to the common 
+2015/6/4, by Zhang Miao, add AddCIDRRange2() and cidrToRange2(), which is more closer to the common
           sense. For AddCIDRRange(), /30, /31, /32 will be ignored; also, the first addr (i.e., end
           with all zero) and the last addr (i.e., end with all 1) will be be ignored
 */
@@ -276,13 +276,13 @@ func cidrToRange2(addr string) (net.IP, net.IP) {
 	if err != nil {
 		return nil, nil
 	}
-	
+
 	al := len(ip)
-	
+
 	// get start
 	s := make(net.IP, al)
 	copy(s, n.IP.To16())
-	
+
 	// get end
 	e := make(net.IP, al)
 	copy(e, s)

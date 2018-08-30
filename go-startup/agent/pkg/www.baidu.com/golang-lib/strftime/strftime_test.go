@@ -1,8 +1,8 @@
 package strftime
 
 import (
-	"time"
 	"fmt"
+	"time"
 )
 
 func ExampleFormat() {

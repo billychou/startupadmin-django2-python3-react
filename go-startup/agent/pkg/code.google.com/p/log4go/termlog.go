@@ -3,9 +3,9 @@
 package log4go
 
 import (
+	"fmt"
 	"io"
 	"os"
-	"fmt"
 )
 
 var stdout io.Writer = os.Stdout
@@ -35,16 +35,16 @@ func (w ConsoleLogWriter) run(out io.Writer) {
 // This is the ConsoleLogWriter's output method.  This will block if the output
 // buffer is full.
 func (w ConsoleLogWriter) LogWrite(rec *LogRecord) {
-    if !LogWithBlocking {
-        if len(w) >= LogBufferLength {
-            if WithModuleState {
-                log4goState.Inc("ERR_TERM_LOG_OVERFLOW", 1)
-            }            
-            
-            return
-        }
-    }
-    
+	if !LogWithBlocking {
+		if len(w) >= LogBufferLength {
+			if WithModuleState {
+				log4goState.Inc("ERR_TERM_LOG_OVERFLOW", 1)
+			}
+
+			return
+		}
+	}
+
 	w <- rec
 }
 

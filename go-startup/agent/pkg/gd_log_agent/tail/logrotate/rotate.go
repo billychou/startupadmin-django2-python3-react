@@ -3,9 +3,9 @@
 package logrotate
 
 import (
-	"time"
 	"fmt"
 	"regexp"
+	"time"
 )
 
 //func GetLogByTime()
@@ -18,7 +18,8 @@ func GetCurLog(logRotateType string, logFormat string) (log string, err error) {
 		return "", fmt.Errorf("log conf rotate type not supported, type=[%s]", logRotateType)
 	} else {
 		return "", fmt.Errorf("log conf rotate type error, type=[%s]", logRotateType)
-	} }
+	}
+}
 
 //判断日志是否进行了切分
 func IsRotated(logRotateType string, logFormat string, oldLog string) bool {
@@ -33,8 +34,8 @@ func IsRotated(logRotateType string, logFormat string, oldLog string) bool {
 			//fmt.Println("isequal, %s, %s", oldLog, curLog)
 			return false
 		}
-	//按照size切分, 这种情况都是正在打印的日志名不变，mv成备份名切割的，truncated可以覆盖
-	//所以这里先都返回false
+		//按照size切分, 这种情况都是正在打印的日志名不变，mv成备份名切割的，truncated可以覆盖
+		//所以这里先都返回false
 	} else if logRotateType == "1" {
 		return false
 	} else {
@@ -67,4 +68,3 @@ func GetCurLogByTime(log_format string) (log string) {
 	//fmt.Println(log)
 	return log
 }
-

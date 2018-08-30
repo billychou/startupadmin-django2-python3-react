@@ -2,7 +2,7 @@
 /*
 modification history
 --------------------
-2014/3/27, by Zhang Miao, modify, according to 
+2014/3/27, by Zhang Miao, modify, according to
                                   https://code.google.com/p/log4go/issues/detail?id=15
 2014/9/28, by weiwei, modify, recycle buffer to reduce memory assumption when GC is turned off
 2015/1/14, by Li Bingyi, modify, add '%P' log format to log pid of the process
@@ -10,15 +10,15 @@ modification history
 package log4go
 
 import (
-	"fmt"
 	"bytes"
+	"fmt"
 	"io"
 	"sync"
 )
 
 const (
 	FORMAT_DEFAULT          = "[%D %T] [%L] (%S) %M"
-    FORMAT_DEFAULT_WITH_PID = "[%D %T] [%L] [%P] (%S) %M"
+	FORMAT_DEFAULT_WITH_PID = "[%D %T] [%L] [%P] (%S) %M"
 	FORMAT_SHORT            = "[%t %d] [%L] %M"
 	FORMAT_ABBREV           = "[%L] %M"
 	FORMAT_GD_LOG_TAILER    = "%M"
@@ -34,24 +34,24 @@ var formatCache = &formatCacheType{}
 var formatMutex sync.Mutex
 
 var (
-    // pool used to format log
-    bufPool sync.Pool
+	// pool used to format log
+	bufPool sync.Pool
 )
 
 func newBuf() *bytes.Buffer {
-    if v := bufPool.Get(); v != nil {
-        return v.(*bytes.Buffer)
-    }
+	if v := bufPool.Get(); v != nil {
+		return v.(*bytes.Buffer)
+	}
 
-    // for a log, 4K should be enough for most case
-    // bytes.Buffer will reallocate a new []byte if previous is run out.
-    // when reallocation occurred, the old []byte can only be freed by GC
-    return bytes.NewBuffer(make([]byte, 0, 4096))
+	// for a log, 4K should be enough for most case
+	// bytes.Buffer will reallocate a new []byte if previous is run out.
+	// when reallocation occurred, the old []byte can only be freed by GC
+	return bytes.NewBuffer(make([]byte, 0, 4096))
 }
 
 func putBuf(bb *bytes.Buffer) {
-    bb.Reset()
-    bufPool.Put(bb)
+	bb.Reset()
+	bufPool.Put(bb)
 }
 
 // Known format codes:
@@ -74,9 +74,9 @@ func FormatLogRecord(format string, rec *LogRecord) string {
 	}
 
 	out := newBuf()
-    defer putBuf(out)
+	defer putBuf(out)
 
-    secs := rec.Created.UnixNano() / 1e9
+	secs := rec.Created.UnixNano() / 1e9
 
 	formatMutex.Lock()
 	cache := *formatCache
@@ -115,8 +115,8 @@ func FormatLogRecord(format string, rec *LogRecord) string {
 				out.WriteString(cache.shortDate)
 			case 'L':
 				out.WriteString(levelStrings[rec.Level])
-            case 'P':
-                out.WriteString(LogProcessId)
+			case 'P':
+				out.WriteString(LogProcessId)
 			case 'S':
 				out.WriteString(rec.Source)
 			case 'M':
@@ -153,16 +153,16 @@ func (w FormatLogWriter) run(out io.Writer, format string) {
 // This is the FormatLogWriter's output method.  This will block if the output
 // buffer is full.
 func (w FormatLogWriter) LogWrite(rec *LogRecord) {
-    if !LogWithBlocking {
-        if len(w) >= LogBufferLength {
-            if WithModuleState {
-                log4goState.Inc("ERR_PATT_LOG_OVERFLOW", 1)
-            }            
-            
-            return
-        }
-    }
-    
+	if !LogWithBlocking {
+		if len(w) >= LogBufferLength {
+			if WithModuleState {
+				log4goState.Inc("ERR_PATT_LOG_OVERFLOW", 1)
+			}
+
+			return
+		}
+	}
+
 	w <- rec
 }
 

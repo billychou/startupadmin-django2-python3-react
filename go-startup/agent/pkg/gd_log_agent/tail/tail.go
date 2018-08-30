@@ -8,16 +8,16 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"reflect"
+	"regexp"
 	"strings"
 	"sync"
 	"time"
-	"regexp"
-	"reflect"
 
+	"gd_log_agent/tail/logrotate"
 	"gd_log_agent/tail/ratelimiter"
 	"gd_log_agent/tail/util"
 	"gd_log_agent/tail/watch"
-	"gd_log_agent/tail/logrotate"
 	"gopkg.in/tomb.v1"
 	//"gd_log_agent/tail/vendor/gopkg.in/tomb.v1"
 )
@@ -27,9 +27,9 @@ var (
 )
 
 type Line struct {
-	Text string
-	Offset int64 //add by mushi
-	Time string  //format  2018-04-01_00:00:00
+	Text    string
+	Offset  int64  //add by mushi
+	Time    string //format  2018-04-01_00:00:00
 	LogFile string //log path and log name
 	//Err  error // Error from tail
 }
@@ -76,13 +76,13 @@ type Config struct {
 	Logger logger
 
 	//日志个性化字段
-	GsidReg		string
+	GsidReg string
 }
 
 //日志切分配置，初次启动时加载文本配置内容，并初始化
 type LogRotateConfig struct {
-	LogFormat	string		//配置中的日志格式字段：log_format, 包含日志路径和日志名字
-	LogRotateType	string		//日志切分类型，0：按时间、1：按大小
+	LogFormat     string //配置中的日志格式字段：log_format, 包含日志路径和日志名字
+	LogRotateType string //日志切分类型，0：按时间、1：按大小
 	//LogRotateGap	int		//日志切分周期，单位为小时
 	//LastRotateTime	string		//上次日志切分时间
 }
@@ -122,11 +122,11 @@ func TailFile(filename string, config Config, logRotateConfig LogRotateConfig) (
 	}
 
 	t := &Tail{
-		Filename: filename,
-		Lines:    make(chan *Line),
-		Config:   config,
-		LogRotateConfig:	logRotateConfig,
-		FWChan: make(chan int),
+		Filename:        filename,
+		Lines:           make(chan *Line),
+		Config:          config,
+		LogRotateConfig: logRotateConfig,
+		FWChan:          make(chan int),
 	}
 
 	// when Logger was not specified in config, use default logger
@@ -136,7 +136,7 @@ func TailFile(filename string, config Config, logRotateConfig LogRotateConfig) (
 
 	if t.Poll {
 		t.watcher = watch.NewPollingFileWatcher(filename, t.LogRotateType, t.LogFormat)
-	//非poll模式暂时忽略
+		//非poll模式暂时忽略
 	} else {
 		//t.watcher = watch.NewInotifyFileWatcher(filename)
 		return nil, nil
@@ -319,7 +319,7 @@ func (tail *Tail) tailFileSync() {
 			now := string([]byte(time.Now().String())[:19])
 			nowFormated := strings.Replace(now, " ", "_", -1)
 
-			cooloff := !tail.sendLine(gsid, offset, nowFormated, tail.Filename)  // add by mushi , offset
+			cooloff := !tail.sendLine(gsid, offset, nowFormated, tail.Filename) // add by mushi , offset
 			if cooloff {
 				// Wait a second before seeking till the end of
 				// file when rate limit is reached.
@@ -344,9 +344,9 @@ func (tail *Tail) tailFileSync() {
 		} else if err == io.EOF {
 			if !tail.Follow {
 				//trace场景中Follow都为True，这种case暂时忽略
-//				if line != "" {
-//					tail.sendLine(line, offset) // add by mushi , offset
-//				}
+				//				if line != "" {
+				//					tail.sendLine(line, offset) // add by mushi , offset
+				//				}
 				return
 			}
 
@@ -446,7 +446,7 @@ func (tail *Tail) waitForChanges() error {
 	case <-tail.changes.Rotated:
 		//强制让老的changes进程退出，下次轮询会重新生成一个changes进程
 		tail.changes = nil
-		tail.FWChan <- 0	//ChangeEvent里监听FWChan管道，有数据则退出
+		tail.FWChan <- 0 //ChangeEvent里监听FWChan管道，有数据则退出
 		if err := tail.reopenRotatedLog(); err != nil {
 			tail.Logger.Printf("deal rotate error %s", err)
 			return err

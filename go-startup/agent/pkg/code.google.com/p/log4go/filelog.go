@@ -3,14 +3,14 @@
 package log4go
 
 import (
-	"os"
 	"fmt"
+	"os"
 	"time"
 )
 
 // This log writer sends output to a file
 type FileLogWriter struct {
-	LogCloser   //for Elegant exit
+	LogCloser //for Elegant exit
 
 	rec chan *LogRecord
 	rot chan bool
@@ -43,15 +43,15 @@ type FileLogWriter struct {
 
 // This is the FileLogWriter's output method
 func (w *FileLogWriter) LogWrite(rec *LogRecord) {
-    if !LogWithBlocking {
-        if len(w.rec) >= LogBufferLength {
-            if WithModuleState {
-                log4goState.Inc("ERR_FILE_LOG_OVERFLOW", 1)
-            }            
-            return
-        }
-    }
-    
+	if !LogWithBlocking {
+		if len(w.rec) >= LogBufferLength {
+			if WithModuleState {
+				log4goState.Inc("ERR_FILE_LOG_OVERFLOW", 1)
+			}
+			return
+		}
+	}
+
 	w.rec <- rec
 }
 
@@ -78,8 +78,8 @@ func NewFileLogWriter(fname string, rotate bool) *FileLogWriter {
 		rotate:   rotate,
 	}
 
-    //init LogCloser
-    w.LogCloserInit()
+	//init LogCloser
+	w.LogCloserInit()
 
 	// open the file for the first time
 	if err := w.intRotate(); err != nil {
@@ -106,10 +106,10 @@ func NewFileLogWriter(fname string, rotate bool) *FileLogWriter {
 				if !ok {
 					return
 				}
-                
-                if w.EndNotify(rec) {
-                    return
-                }
+
+				if w.EndNotify(rec) {
+					return
+				}
 
 				now := time.Now()
 				if (w.maxlines > 0 && w.maxlines_curlines >= w.maxlines) ||

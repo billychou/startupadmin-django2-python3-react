@@ -5,7 +5,7 @@ type FileChanges struct {
 	Truncated chan bool // Channel to get notified of truncations
 	Deleted   chan bool // Channel to get notified of deletions/renames
 	//add by mushi
-	Rotated   chan bool // Channel to get notified of log rotate, after rotated, need reopen new log
+	Rotated chan bool // Channel to get notified of log rotate, after rotated, need reopen new log
 }
 
 func NewFileChanges() *FileChanges {

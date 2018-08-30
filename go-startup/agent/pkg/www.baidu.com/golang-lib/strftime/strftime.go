@@ -7,8 +7,8 @@ import (
 )
 
 // taken from time/format.go
-var conversion = map[string]string {
-	/*stdLongMonth      */ "B":"January",
+var conversion = map[string]string{
+	/*stdLongMonth      */ "B": "January",
 	/*stdMonth          */ "b": "Jan",
 	// stdNumMonth       */ "m": "1",
 	/*stdZeroMonth      */ "m": "01",
@@ -31,12 +31,12 @@ var conversion = map[string]string {
 	/*stdTZ             */ "Z": "MST",
 	// stdISO8601TZ      */ "z": "Z0700",  // prints Z for UTC
 	// stdISO8601ColonTZ */ "z": "Z07:00", // prints Z for UTC
-	/*stdNumTZ          */ "z": "-0700",  // always numeric
+	/*stdNumTZ          */ "z": "-0700", // always numeric
 	// stdNumShortTZ     */ "b": "-07",    // always numeric
 	// stdNumColonTZ     */ "b": "-07:00", // always numeric
 }
 
-// This is an alternative to time.Format because no one knows 
+// This is an alternative to time.Format because no one knows
 // what date 040305 is supposed to create when used as a 'layout' string
 // this takes standard strftime format options. For a complete list
 // of format options see http://strftime.org/

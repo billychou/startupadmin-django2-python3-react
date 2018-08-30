@@ -1,23 +1,22 @@
-
 package watch
 
 import (
+	"fmt"
 	"os"
 	"runtime"
 	"time"
-	"fmt"
 
-	"gd_log_agent/tail/util"
 	"gd_log_agent/tail/logrotate"
+	"gd_log_agent/tail/util"
 	"gopkg.in/tomb.v1"
 )
 
 // PollingFileWatcher polls the file for changes.
 type PollingFileWatcher struct {
-	Filename string
-	Size     int64
+	Filename      string
+	Size          int64
 	LogRotateType string
-	LogFormat string
+	LogFormat     string
 }
 
 func NewPollingFileWatcher(filename string, logRotateType string, logFormat string) *PollingFileWatcher {
@@ -112,7 +111,7 @@ func (fw *PollingFileWatcher) ChangeEvents(t *tomb.Tomb, pos int64, FWChan chan 
 			if modTime != prevModTime {
 				prevModTime = modTime
 				changes.NotifyModified()
-				continue	// add by mushi
+				continue // add by mushi
 			}
 
 			//add by mushi

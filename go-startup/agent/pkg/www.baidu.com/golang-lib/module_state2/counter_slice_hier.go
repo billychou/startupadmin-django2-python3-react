@@ -19,17 +19,17 @@ Usage:
 package module_state2
 
 import (
-    "encoding/json"
-    "fmt"
+	"encoding/json"
+	"fmt"
 )
 
 /* hierarchical structure for counter diff */
 type hierCounterDiff struct {
-	LastTime        string      // time till
-	Duration        int         // in second
+	LastTime string // time till
+	Duration int    // in second
 
-    Diff            hierCounters
-    NoahKeyPrefix   string      //  for noah key
+	Diff          hierCounters
+	NoahKeyPrefix string //  for noah key
 }
 
 // convert CounterDiff to hierCounterDiff
@@ -39,19 +39,19 @@ type hierCounterDiff struct {
 //  - *hierCounterDiff: hierarchical counter diff
 //  - error: error msg
 func toHierCounterDiff(cd *CounterDiff) (*hierCounterDiff, error) {
-    var hcd hierCounterDiff
-    var err error
+	var hcd hierCounterDiff
+	var err error
 
-    hcd.Diff, err = toHierCounters(cd.Diff)
-    if err != nil {
-        return nil, fmt.Errorf("toHierCounterDiff(): %s", err.Error())
-    }
+	hcd.Diff, err = toHierCounters(cd.Diff)
+	if err != nil {
+		return nil, fmt.Errorf("toHierCounterDiff(): %s", err.Error())
+	}
 
-    hcd.LastTime = cd.LastTime
-    hcd.Duration = cd.Duration
-    hcd.NoahKeyPrefix = cd.NoahKeyPrefix
+	hcd.LastTime = cd.LastTime
+	hcd.Duration = cd.Duration
+	hcd.NoahKeyPrefix = cd.NoahKeyPrefix
 
-    return &hcd, nil
+	return &hcd, nil
 }
 
 // get hierarchical counter diff of json format
@@ -61,10 +61,10 @@ func toHierCounterDiff(cd *CounterDiff) (*hierCounterDiff, error) {
 //  - []byte: json formated byte
 //  - error: error msg
 func GetCdHierJson(cd *CounterDiff) ([]byte, error) {
-    hierCounterDiff, err := toHierCounterDiff(cd)
-    if err != nil {
-        return nil, fmt.Errorf("GetCdHierJson(): %s", err.Error())
-    }
+	hierCounterDiff, err := toHierCounterDiff(cd)
+	if err != nil {
+		return nil, fmt.Errorf("GetCdHierJson(): %s", err.Error())
+	}
 
-    return json.Marshal(hierCounterDiff)
+	return json.Marshal(hierCounterDiff)
 }

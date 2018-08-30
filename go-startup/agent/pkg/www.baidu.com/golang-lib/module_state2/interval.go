@@ -11,7 +11,7 @@ DESCRIPTION
 package module_state2
 
 import (
-    "time"
+	"time"
 )
 
 // Calculate seconds left for next interval
@@ -21,8 +21,8 @@ import (
 // Returns:
 //      seconds left for next interval
 //
-func NextInterval(now time.Time, interval int) int{
+func NextInterval(now time.Time, interval int) int {
 	seconds := now.Second()
 
-    return interval - seconds % interval
+	return interval - seconds%interval
 }
