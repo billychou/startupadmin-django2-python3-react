@@ -73,4 +73,8 @@ function hasPrototypeProperty(object, name) {
 
 // keys返回数组
 let keys = Object.keys(PrototypePerson.prototype);
-console.log(keys)
+console.log(keys);
+
+console.log(typeof Array.prototype.sort);
+console.log(typeof String.prototype.substring);
+
