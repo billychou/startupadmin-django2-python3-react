@@ -6,3 +6,5 @@ startup/web/startup/dist
 startup/static/
 startup/logs
 startup/libs/dysms_python
+go-startup/agent
+js-startup/node_modules/
