@@ -17,3 +17,23 @@ function Person(name, age, job) {
 
 var friend = new Person("QPP", 27, "Software Engineer");
 friend.sayName()
+
+
+// 下面使用 class 关键词
+class PersonClass {
+    // 构造函数
+    constructor(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+    }
+
+    sayName() {
+        console.log(this.name);
+        console.log(this.age);
+        console.log(this.job);
+    }
+}
+
+var personClass = new PersonClass("songchuan.zhou", 31, "Software Engineer");
+personClass.sayName();

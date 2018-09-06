@@ -8,8 +8,12 @@ function Person(name, age, job) {
     o.sayName = function () {
         console.log(this.name);
     }
+    // 作为构造函数使用，不能使用箭头函数
     return o;
 }
+
+// 箭头函数表达式的语法比函数表达式更短，并且没有自己的this，arguments，super或 new.target。这些函数表达式更适用于那些本来需要匿名函数的地方，并且它们不能用作构造函数
+// 不能使用构造函数
 
 let friend = new Person("Nicholas", 29, "Software Engineer");
 friend.sayName()
@@ -23,6 +27,22 @@ function SpecialArray() {
 
 let aArray = SpecialArray("apple", "bana", "cleptha");
 console.log("AAA", aArray);
+// ES6 
+// 
 for (let i=0; i<aArray.length; i++) {
     console.log("array", aArray[i]);
 }
+
+aArray.map( item=>{
+    console.log("map", item);
+})
+
+
+var numbers = [1, 4, 2, 5]
+
+// ...展开操作符
+console.log(Math.max(...numbers))
+console.log(Math.min(...numbers))
+
+console.log(Math.max.apply(null, numbers))
+console.log(Math.min.apply(null, numbers))
