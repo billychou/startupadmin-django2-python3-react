@@ -77,4 +77,3 @@ console.log(keys);
 
 console.log(typeof Array.prototype.sort);
 console.log(typeof String.prototype.substring);
-
